@@ -28,10 +28,10 @@ function setGameOver(view: CanvasView) {
 }
 
 function setGameWin(
-  view: CanvasView,
-  bricks: Brick[],
-  paddle: Paddle,
-  ball: Ball
+  view: CanvasView
+  // bricks: Brick[],
+  // paddle: Paddle,
+  // ball: Ball
 ) {}
 
 function gameLoop(
@@ -63,6 +63,13 @@ function gameLoop(
     score += 1;
     view.drawScore(score);
   }
+
+  // Game over when ball leaves playField
+  if (ball.pos.y > view.canvas.height) gameOver = true;
+  // If game won, set game over and display win
+  if (bricks.length === 0) return setGameWin(view);
+  // Return the game over and don't run the requestAnimationFrame
+  if (gameOver) return setGameOver(view);
 
   requestAnimationFrame(() => gameLoop(view, bricks, paddle, ball, collision));
 }
